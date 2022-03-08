@@ -22,7 +22,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
+import com.rammsauer.tv.Data.Channel
 import com.rammsauer.tv.ViewModel.HomeViewModel
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @ExperimentalAnimationApi
@@ -30,9 +33,7 @@ import com.rammsauer.tv.ViewModel.HomeViewModel
 fun HomeScreen(
     viewModel: HomeViewModel = viewModel()
 ) {
-    val channel by viewModel.channel.observeAsState(initial = listOf()).also {
-        viewModel.setChannel()
-    }
+    val channel: List<Channel> by viewModel.getChannel().observeAsState(initial = emptyList())
     val group by viewModel.group.observeAsState(initial = listOf())
     val context = LocalContext.current
 

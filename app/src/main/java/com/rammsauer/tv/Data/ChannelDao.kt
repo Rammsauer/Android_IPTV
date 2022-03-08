@@ -9,16 +9,16 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ChannelDao {
     @Query("SELECT * FROM channel")
-    fun getAll(): Flow<List<Channel>>
+    suspend fun getAll(): List<Channel>
 
     @Query("SELECT * FROM channel WHERE onlineStatus=1")
-    fun getAllOnline(): Flow<List<Channel>>
+    suspend fun getAllOnline(): List<Channel>
 
     @Query("SELECT DISTINCT country FROM channel")
     fun getGroup(): Flow<List<String>>
 
     @Query("SELECT * FROM channel WHERE country=:country")
-    fun getChannelCountry(country: String): List<Channel>
+    suspend fun getChannelCountry(country: String): List<Channel>
 
     @Query("UPDATE channel SET onlineStatus=:status WHERE url=:url")
     fun updateStatus(status: Int, url: String)

@@ -45,8 +45,8 @@ class ChannelRepository @Inject constructor(
 
     fun getGroup(): Flow<List<String>> = channelDao.getGroup()
 
-    fun getChannels(): Flow<List<Channel>> = channelDao.getAllOnline()
+    suspend fun getChannels(): List<Channel> = channelDao.getAllOnline()
 
-    fun getChannelsFromCountry(country: String): List<Channel> = channelDao.getChannelCountry(country)
+    suspend fun getChannelsFromCountry(country: String): List<Channel> = channelDao.getChannelCountry(country)
 
 }
