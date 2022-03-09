@@ -23,6 +23,9 @@ interface ChannelDao {
     @Query("UPDATE channel SET onlineStatus=:status WHERE url=:url")
     fun updateStatus(status: Int, url: String)
 
+    @Query("UPDATE channel SET logo=:logo WHERE url=:url")
+    fun updateLogo(url: String, logo: ByteArray)
+
     @Insert
     fun insertAll(channel: Channel)
 

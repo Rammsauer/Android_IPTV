@@ -1,20 +1,31 @@
 package com.rammsauer.tv.Screen.HomeScreen
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.ArrowDropDown
+import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -23,9 +34,9 @@ import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
 import com.rammsauer.tv.Data.Channel
+import com.rammsauer.tv.Screen.HomeScreen.View.CardView
+import com.rammsauer.tv.Screen.HomeScreen.View.LogoView
 import com.rammsauer.tv.ViewModel.HomeViewModel
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @ExperimentalAnimationApi
@@ -37,7 +48,7 @@ fun HomeScreen(
     val group by viewModel.group.observeAsState(initial = listOf())
     val context = LocalContext.current
 
-    var exoPlayer = remember(context) {
+    val exoPlayer = remember(context) {
         ExoPlayer.Builder(context).build().apply {
             this.setMediaItem(MediaItem.fromUri("https://artesimulcast.akamaized.net/hls/live/2030993/artelive_de/index.m3u8"))
             this.prepare()
@@ -50,7 +61,7 @@ fun HomeScreen(
                 //TODO 'PlayerView' is deprecated. found no current alternative
                 PlayerView(it).apply {
                     player = exoPlayer
-                    this.useController = false
+                    this.useController = true
                     this.player!!.play()
                 }
             },
@@ -60,7 +71,10 @@ fun HomeScreen(
                 .heightIn(min = 128.dp, max = 512.dp),
         )
 
-        DetailView(title = "Countrys", country = "") {
+        DetailView(
+            title   = "Countrys",
+            country = "",
+        ) {
             LazyColumn {
                 items(group) {
                     Card(
@@ -87,33 +101,24 @@ fun HomeScreen(
 
         LazyColumn{
             items(channel) {
+                /*
                 DetailView(
-                    title = "${it.name}",
-                    country = "${it.group}"
+                    title       = "${it.name}",
+                    country     = "${it.group}",
+                    logo        = it.logo
                 ) {
-                    Column(
-                        modifier = Modifier
-                            .padding(
-                                horizontal = 32.dp,
-                                vertical = 4.dp)
-                    ) {
-                        Text(text = "${it.status}")
-                        Text(text = "${it.group}")
-                        Text(text = "${it.logo}")
-                        Button(
-                            onClick = {
-                                exoPlayer.stop()
-                                exoPlayer.setMediaItem(MediaItem.fromUri("${it.url!!}"))
-                                exoPlayer.prepare()
-                                exoPlayer.play() },
-                            content = {
-                                Icon(
-                                    imageVector = Icons.Default.PlayArrow,
-                                    contentDescription = null)
-                            }
-                        )
+                 */
+                    CardView(
+                        logo    = it.logo,
+                        status  = it.status,
+                        name    = "${it.name}",
+                    ){
+                        exoPlayer.stop()
+                        exoPlayer.setMediaItem(MediaItem.fromUri("${it.url!!}"))
+                        exoPlayer.prepare()
+                        exoPlayer.play()
                     }
-                }
+                //}
             }
         }
     }
@@ -123,9 +128,10 @@ fun HomeScreen(
 @ExperimentalAnimationApi
 @Composable
 fun DetailView(
-    title: String,
-    country: String,
-    content : @Composable () -> Unit)
+    title       : String,
+    country     : String,
+    logo        : ByteArray? = null,
+    content     : @Composable () -> Unit)
 {
     var expanded by remember { mutableStateOf(false) }
 
@@ -145,6 +151,22 @@ fun DetailView(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
+                if ((logo != null) && (BitmapFactory.decodeByteArray(logo, 0, logo!!.size) != null)) {
+                    LogoView(
+                        logo = logo,
+                        size = 32.dp
+                    )
+                }
+                else {
+                    Icon(
+                        imageVector = Icons.Outlined.ArrowDropDown,
+                        contentDescription = null,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .padding(horizontal = 8.dp)
+                    )
+                }
+
                 Text(
                     text = title,
                     modifier = Modifier.fillMaxWidth(0.82F),
@@ -170,24 +192,3 @@ fun DetailView(
         }
     }
 }
-
-/*
-
-                    ListItem(
-                        icon = {
-                            Icon(
-                                imageVector = Icons.Outlined.PlayArrow,
-                                contentDescription = null)
-                        },
-                        text = {
-                            Text(text = "${it.name}")
-                        },
-                        trailing = {
-                            Icon(
-                                imageVector = Icons.Default.ArrowDropDown,
-                                contentDescription = null)
-                        },
-                        modifier = Modifier
-                            .padding(8.dp)
-                    )
- */
