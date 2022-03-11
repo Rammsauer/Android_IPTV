@@ -71,6 +71,7 @@ fun HomeScreen(
                 .heightIn(min = 128.dp, max = 512.dp),
         )
 
+        /*
         DetailView(
             title   = "Countrys",
             country = "",
@@ -98,8 +99,11 @@ fun HomeScreen(
                 }
             }
         }
+        */
 
-        LazyColumn{
+        LazyColumn(
+            modifier = Modifier.padding(top = 16.dp)
+        ){
             items(channel) {
                 /*
                 DetailView(
@@ -111,6 +115,7 @@ fun HomeScreen(
                     CardView(
                         logo    = it.logo,
                         status  = it.status,
+                        country = "${it.group}",
                         name    = "${it.name}",
                     ){
                         exoPlayer.stop()

@@ -2,10 +2,7 @@ package com.rammsauer.tv.Screen.HomeScreen.View
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.layout.*
-import androidx.compose.material.Button
-import androidx.compose.material.Card
-import androidx.compose.material.Icon
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.CheckCircle
 import androidx.compose.material.icons.filled.PlayArrow
@@ -18,17 +15,22 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+@OptIn(ExperimentalMaterialApi::class)
 @Composable
 fun CardView(
     logo    : ByteArray?,
     status  : Int,
     name    : String,
+    country : String,
     onClick : (() -> Unit)
 ){
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp)
+            .padding(horizontal = 8.dp, vertical = 8.dp),
+        onClick = {
+            onClick.invoke()
+        }
     ) {
         Row(
             //horizontalArrangement = Arrangement.SpaceBetween,
@@ -36,7 +38,8 @@ fun CardView(
             if ((logo != null) && (BitmapFactory.decodeByteArray(logo, 0, logo.size) != null)
             ) {
                 Box(
-                    modifier = Modifier.padding(4.dp)
+                    modifier = Modifier
+                        .padding(4.dp)
                 ) {
                     LogoView(
                         logo = logo,
@@ -67,12 +70,14 @@ fun CardView(
 
             Box(
                 modifier = Modifier
-                    .fillMaxSize()
+                    .fillMaxWidth()
                     .padding(horizontal = 16.dp)
             ) {
                 Column(
                     modifier = Modifier
-                        .align(Alignment.Center),
+                        .align(Alignment.TopStart)
+                        .height(100.dp)
+                        .padding(8.dp),
                 ) {
                     Text(
                         text = "$name",
@@ -80,21 +85,15 @@ fun CardView(
                         fontSize = 24.sp
                     )
                     Text(
-                        text = "Derzeitig keine Programmvorschau verfügbar"
+                        text = "$country"
                     )
                 }
 
-                Button(
-                    onClick = {
-                        onClick.invoke()
-                    },
-                    content = {
-                        Icon(
-                            imageVector = Icons.Default.PlayArrow,
-                            contentDescription = null,
-                        )
-                    },
-                    modifier = Modifier.align(Alignment.BottomEnd)
+                Icon(
+                    imageVector = Icons.Default.PlayArrow,
+                    contentDescription = null,
+                    modifier = Modifier
+                        .align(Alignment.CenterEnd)
                 )
             }
         }
