@@ -13,18 +13,12 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
     private val _channel: MutableLiveData<List<Channel>> by lazy {
         MutableLiveData<List<Channel>>().also {
-            //setChannel()
             updateChannel()
         }
     }
 
     val group: LiveData<List<String>> = channelRepository.getGroup().asLiveData()
 
-    private fun setChannel() = viewModelScope.launch {
-        channelRepository.setChannels(){
-
-        }
-    }
 
     private fun updateChannel() {
         viewModelScope.launch {

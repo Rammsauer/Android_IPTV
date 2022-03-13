@@ -9,10 +9,8 @@ import com.rammsauer.tv.M3U_REGEX
 import com.rammsauer.tv.data.Network
 import kotlinx.coroutines.flow.Flow
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.*
 import java.net.URL
 import javax.inject.Inject
-import kotlin.coroutines.suspendCoroutine
 
 class ChannelRepository @Inject constructor(
     @ApplicationContext private val context: Context
@@ -67,10 +65,6 @@ class ChannelRepository @Inject constructor(
 
             callback(false)
         }
-    }
-
-    suspend fun addUser(response: String) {
-
     }
 
     fun getGroup(): Flow<List<String>> = channelDao.getGroup()
