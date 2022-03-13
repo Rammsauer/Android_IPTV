@@ -1,4 +1,4 @@
-package com.rammsauer.tv.Screen.HomeScreen.View
+package com.rammsauer.tv.screen.homeScreen.view
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.Image

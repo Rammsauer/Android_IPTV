@@ -1,9 +1,7 @@
-package com.rammsauer.tv
+package com.rammsauer.tv.data.database
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.rammsauer.tv.Data.Channel
-import com.rammsauer.tv.Data.ChannelDao
 
 @Database(entities = [Channel::class], version = 1)
 abstract class AppDatabase : RoomDatabase() {

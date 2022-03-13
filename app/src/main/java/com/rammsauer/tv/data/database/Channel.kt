@@ -1,4 +1,4 @@
-package com.rammsauer.tv.Data
+package com.rammsauer.tv.data.database
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

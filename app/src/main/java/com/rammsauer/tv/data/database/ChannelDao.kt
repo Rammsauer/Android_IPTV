@@ -1,4 +1,4 @@
-package com.rammsauer.tv.Data
+package com.rammsauer.tv.data.database
 
 import androidx.room.Dao
 import androidx.room.Delete

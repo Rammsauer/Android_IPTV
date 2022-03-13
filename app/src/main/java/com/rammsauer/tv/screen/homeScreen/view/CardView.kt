@@ -1,4 +1,4 @@
-package com.rammsauer.tv.Screen.HomeScreen.View
+package com.rammsauer.tv.screen.homeScreen.view
 
 import android.graphics.BitmapFactory
 import androidx.compose.foundation.layout.*
@@ -62,7 +62,7 @@ fun CardView(
                     )
 
                     Icon(
-                        imageVector = if (status.equals(1)) Icons.Filled.CheckCircle else Icons.Outlined.Clear,
+                        imageVector = if (status == 1) Icons.Filled.CheckCircle else Icons.Outlined.Clear,
                         contentDescription = null
                     )
                 }
@@ -80,12 +80,12 @@ fun CardView(
                         .padding(8.dp),
                 ) {
                     Text(
-                        text = "$name",
+                        text = name,
                         fontWeight = FontWeight.Bold,
                         fontSize = 24.sp
                     )
                     Text(
-                        text = "$country"
+                        text = country
                     )
                 }
 

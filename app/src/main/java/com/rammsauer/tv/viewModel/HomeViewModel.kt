@@ -1,19 +1,11 @@
-package com.rammsauer.tv.ViewModel
+package com.rammsauer.tv.viewModel
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.util.Log
 import androidx.lifecycle.*
-import com.google.android.exoplayer2.source.hls.HlsMediaSource
-import com.rammsauer.tv.ChannelRepository
-import com.rammsauer.tv.Data.Channel
-import com.rammsauer.tv.Network
+import com.rammsauer.tv.repository.ChannelRepository
+import com.rammsauer.tv.data.database.Channel
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
-import java.lang.Exception
 import javax.inject.Inject
-import kotlin.math.log
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
@@ -21,7 +13,7 @@ class HomeViewModel @Inject constructor(
 ): ViewModel() {
     private val _channel: MutableLiveData<List<Channel>> by lazy {
         MutableLiveData<List<Channel>>().also {
-            setChannel()
+            //setChannel()
             updateChannel()
         }
     }
@@ -29,7 +21,9 @@ class HomeViewModel @Inject constructor(
     val group: LiveData<List<String>> = channelRepository.getGroup().asLiveData()
 
     private fun setChannel() = viewModelScope.launch {
-        channelRepository.setChannels()
+        channelRepository.setChannels(){
+
+        }
     }
 
     private fun updateChannel() {

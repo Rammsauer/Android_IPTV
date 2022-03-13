@@ -1,31 +1,20 @@
-package com.rammsauer.tv.Screen.HomeScreen
+package com.rammsauer.tv.screen.homeScreen
 
-import android.graphics.Bitmap
 import android.graphics.BitmapFactory
-import android.util.Base64
-import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.CheckCircle
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.outlined.ArrowDropDown
-import androidx.compose.material.icons.outlined.Clear
 import androidx.compose.material.icons.outlined.PlayArrow
 import androidx.compose.runtime.*
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.asImageBitmap
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
@@ -33,10 +22,10 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.ui.PlayerView
-import com.rammsauer.tv.Data.Channel
-import com.rammsauer.tv.Screen.HomeScreen.View.CardView
-import com.rammsauer.tv.Screen.HomeScreen.View.LogoView
-import com.rammsauer.tv.ViewModel.HomeViewModel
+import com.rammsauer.tv.data.database.Channel
+import com.rammsauer.tv.screen.homeScreen.view.CardView
+import com.rammsauer.tv.screen.homeScreen.view.LogoView
+import com.rammsauer.tv.viewModel.HomeViewModel
 
 @OptIn(ExperimentalFoundationApi::class, ExperimentalMaterialApi::class)
 @ExperimentalAnimationApi
@@ -55,7 +44,7 @@ fun HomeScreen(
         }
     }
 
-    Column() {
+    Column {
         AndroidView(
             factory = {
                 //TODO 'PlayerView' is deprecated. found no current alternative
@@ -65,7 +54,6 @@ fun HomeScreen(
                     this.player!!.play()
                 }
             },
-            //TODO fillmaxheight not working
             modifier = Modifier
                 .fillMaxWidth()
                 .heightIn(min = 128.dp, max = 512.dp),
@@ -73,7 +61,7 @@ fun HomeScreen(
 
         /*
         DetailView(
-            title   = "Countrys",
+            title   = "Country's",
             country = "",
         ) {
             LazyColumn {
@@ -103,27 +91,19 @@ fun HomeScreen(
 
         LazyColumn(
             modifier = Modifier.padding(top = 16.dp)
-        ){
+        ) {
             items(channel) {
-                /*
-                DetailView(
-                    title       = "${it.name}",
-                    country     = "${it.group}",
-                    logo        = it.logo
+                CardView(
+                    logo = it.logo,
+                    status = it.status,
+                    country = "${it.group}",
+                    name = "${it.name}",
                 ) {
-                 */
-                    CardView(
-                        logo    = it.logo,
-                        status  = it.status,
-                        country = "${it.group}",
-                        name    = "${it.name}",
-                    ){
-                        exoPlayer.stop()
-                        exoPlayer.setMediaItem(MediaItem.fromUri("${it.url!!}"))
-                        exoPlayer.prepare()
-                        exoPlayer.play()
-                    }
-                //}
+                    exoPlayer.stop()
+                    exoPlayer.setMediaItem(MediaItem.fromUri("${it.url!!}"))
+                    exoPlayer.prepare()
+                    exoPlayer.play()
+                }
             }
         }
     }
@@ -156,7 +136,7 @@ fun DetailView(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                if ((logo != null) && (BitmapFactory.decodeByteArray(logo, 0, logo!!.size) != null)) {
+                if ((logo != null) && (BitmapFactory.decodeByteArray(logo, 0, logo.size) != null)) {
                     LogoView(
                         logo = logo,
                         size = 32.dp
