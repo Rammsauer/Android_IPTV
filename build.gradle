@@ -1,11 +1,11 @@
 buildscript {
     ext {
-        compose_version = '1.0.1'
-        hilt = '2.39.1'
-        room_version = '2.4.2'
-        hilt_lifecycle = '1.0.0'
-        lifecycle_version = "2.5.0-alpha03"
-
+        compose_version     = '1.0.1'
+        room_version        = '2.4.2'
+        lifecycle_version   = "2.5.0-alpha03"
+        exoplayer_version   = "2.17.0"
+        okhttp_version      = "4.9.0"
+        hilt                = "2.41"
     }
 
     repositories {
