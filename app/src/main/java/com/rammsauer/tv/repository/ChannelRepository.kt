@@ -1,7 +1,9 @@
 package com.rammsauer.tv.repository
 
 import android.content.Context
+import android.net.wifi.WifiManager
 import android.util.Log
+import androidx.compose.ui.text.toUpperCase
 import androidx.room.Room
 import com.rammsauer.tv.data.database.AppDatabase
 import com.rammsauer.tv.data.database.Channel
@@ -66,6 +68,7 @@ class ChannelRepository @Inject constructor(
             callback(false)
         }
     }
+
 
     fun getGroup(): Flow<List<String>> = channelDao.getGroup()
 

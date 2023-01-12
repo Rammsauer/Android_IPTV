@@ -9,7 +9,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
 import javax.inject.Inject
 
-
 @HiltViewModel
 class EntryScreenViewModel @Inject constructor(
     private val channelRepository: ChannelRepository
@@ -18,8 +17,8 @@ class EntryScreenViewModel @Inject constructor(
     val isLoading : LiveData<Boolean> = _isLoading
 
     fun initChannelList() = viewModelScope.launch {
-        if (isEmpty()) {
-            channelRepository.setChannels(){
+        if (channelRepository.getChannels().isEmpty()) {
+            channelRepository.setChannels {
                 _isLoading.postValue(it)
             }
         }
@@ -27,9 +26,5 @@ class EntryScreenViewModel @Inject constructor(
             channelRepository.setChannels {}
             _isLoading.postValue(false)
         }
-    }
-
-    suspend fun isEmpty(): Boolean {
-        return channelRepository.getChannels().isEmpty()
     }
 }
